@@ -1,4 +1,6 @@
-﻿namespace OBP200_PetshopExercise;
+﻿using System;
+using System.Collections.Generic;
+namespace OBP200_PetshopExercise;
 
 class Program
 {
@@ -9,7 +11,7 @@ class Program
     static string[] Customer = new string[4];
 
     // Available animals: [type, name, price, sound]
-    static List<string[]> Animals = new List<string[]>();
+    //static List<string[]> Animals = new List<string[]>();
 
     // Purchase history: [date, animal, price]
     static List<string[]> PurchaseHistory = new List<string[]>();
@@ -21,7 +23,12 @@ class Program
 
     static void Main(string[] args)
     {
-        InitAnimals();
+        //InitAnimals();
+        Animals.AddAnimals(new Animals("mammal", "Cat", 25, "Meow"));
+        Animals.AddAnimals(new Animals("mammal", "Dog", 40, "Woof"));
+        Animals.AddAnimals(new Animals("bird", "Parrot", 35, "Squawk"));
+        Animals.AddAnimals(new Animals("reptile", "Turtle", 30, "Cowabunga!"));
+        Animals.AddAnimals(new Animals("small", "Hamster", 15, "Squeak"));
 
         while (true)
         {
@@ -127,28 +134,32 @@ class Program
 
     static void InitAnimals()
     {
-        Animals.Clear();
-        Animals.Add(new[] { "mammal", "Cat", "25", "Meow" });
-        Animals.Add(new[] { "mammal", "Dog", "40", "Woof" });
-        Animals.Add(new[] { "bird", "Parrot", "35", "Squawk" });
-        Animals.Add(new[] { "reptile", "Turtle", "30", "Cowabunga!" });
-        Animals.Add(new[] { "small", "Hamster", "15", "Squeak" });
+        //Animals.Clear();
+        //Animals.Add(new[] { "mammal", "Cat", "25", "Meow" });
+        //Animals.Add(new[] { "mammal", "Dog", "40", "Woof" });
+        //Animals.Add(new[] { "bird", "Parrot", "35", "Squawk" });
+        //Animals.Add(new[] { "reptile", "Turtle", "30", "Cowabunga!" });
+        //Animals.Add(new[] { "small", "Hamster", "15", "Squeak" });
     }
 
     static void DisplayAnimals()
     {
         for (int i = 0; i < Animals.Count; i++)
         {
-            var animal = Animals[i];
-            Console.WriteLine($"{i + 1}) {animal[1]} ({animal[0]}) - {animal[2]} coins");
+            var animal = Animals.animals[i];
+            Console.WriteLine($"({i + 1}) {animal.type} ({animal.species}) - {animal.costs} coins");
         }
     }
 
     static void BuyAnimal(int index)
     {
-        var animal = Animals[index];
-        int price = ParseInt(animal[2], 10);
-        int budget = ParseInt(Customer[1], 0);
+        var animal = Animals.animals[index];
+        int price = animal.costs
+        //int price = ParseInt(animal.type, 10);
+        ;
+        // 10);
+
+    int budget = ParseInt(Customer[1], 0);
 
         if (budget < price)
         {
@@ -165,12 +176,12 @@ class Program
 
         // Add to pet list
         var pets = (Customer[2] ?? "").Trim();
-        Customer[2] = string.IsNullOrEmpty(pets) ? animal[1] : (pets + ";" + animal[1]);
+        Customer[2] = string.IsNullOrEmpty(pets) ? animal.type : (pets + ";" + animal.type);
 
         // Record purchase
-        PurchaseHistory.Add(new[] { DateTime.Now.ToString("HH:mm"), animal[1], price.ToString() });
+        PurchaseHistory.Add(new[] { DateTime.Now.ToString("HH:mm"), animal.type, price.ToString() });
 
-        Console.WriteLine($"You bought a {animal[1]} for {price} coins!");
+        Console.WriteLine($"You bought a {animal.type} for {price} coins!");
         ShowStatus();
     }
 
@@ -206,11 +217,11 @@ class Program
         foreach (var petName in petList)
         {
             // Find the animal in the Animals list to get its sound
-            foreach (var animal in Animals)
+            foreach (var animal in Animals.animals)
             {
-                if (animal[1] == petName)
+                if (animal.type == petName)
                 {
-                    Console.WriteLine($"  {petName}: {animal[3]}");
+                    Console.WriteLine($"  {petName}: {animal.sound}");
                     break;
                 }
             }
