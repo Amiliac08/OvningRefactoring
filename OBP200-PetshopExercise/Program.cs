@@ -8,13 +8,13 @@ class Program
 
     // Customer data: all values as strings
     // index: 0 Name, 1 Budget, 2 Pets (semicolon-sep), 3 Total Spent
-    static string[] Customer = new string[4];
+    //static string[] Customer = new string[4];
 
     // Available animals: [type, name, price, sound]
     //static List<string[]> Animals = new List<string[]>();
 
     // Purchase history: [date, animal, price]
-    static List<string[]> PurchaseHistory = new List<string[]>();
+    public static List<string[]> PurchaseHistory = new List<string[]>();
 
     // Random
     static Random Rng = new Random();
