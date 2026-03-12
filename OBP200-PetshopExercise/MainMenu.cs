@@ -58,6 +58,7 @@ public class MainMenu
             }
         }
     }
+    // Show animals in menu
     static void DisplayAnimals()
     {
         for (int i = 0; i < Animals.Count; i++)
