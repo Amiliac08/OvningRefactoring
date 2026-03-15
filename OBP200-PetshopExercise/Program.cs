@@ -49,34 +49,36 @@ class Program
     
     public static void ViewCustomerPets()
     {
-        var pets = (Customer.customers[2] ?? "").Trim();
-        if (string.IsNullOrWhiteSpace(pets))
+        //var pets = (Customer.animallist ?? "").Trim();
+        var pets = Customer.animallist;
+        if (pets == null)
         {
             Console.WriteLine("You haven't bought any pets yet.");
         }
         else
         {
             Console.WriteLine("Your pets:");
-            var petList = pets.Split(';');
-            for (int i = 0; i < petList.Length; i++)
+            //var petList = pets.Split(';');
+            for (int i = 0; i < Customer.animallist.Count; i++)
             {
-                Console.WriteLine($"  {i + 1}. {petList[i]}");
+                Console.WriteLine($"  {i + 1}. {Customer.animallist[i]}");
             }
         }
     }
 
     public static void ShowAnimalSounds()
     {
-        var pets = (Customer.customers[2] ?? "").Trim();
-        if (string.IsNullOrWhiteSpace(pets))
+        //var pets = (Customer.animallist ?? "").Trim();
+        var pets = Customer.animallist;
+        if (pets == null)
         {
             Console.WriteLine("You haven't bought any pets yet.");
             return;
         }
 
         Console.WriteLine("Your pets' sounds:");
-        var petList = pets.Split(';');
-        foreach (var petName in petList)
+        //var petList = pets.Split(';');
+        foreach (var petName in Customer.animallist)
         {
             // Find the animal in the Animals list to get its sound
             foreach (var animal in Animals.animals)
@@ -94,7 +96,8 @@ class Program
 
     public static void ShowStatus()
     {
-        Console.WriteLine($"[{Customer.customers[0]}] Budget: {Customer.customers[1]} coins | Total Spent: {Customer.customers[3]} coins");
+        Customer customer = new Customer();
+        Console.WriteLine($"[{customer.name}] Budget: {Customer.budget} coins | Total Spent: {customer.spent} coins");
     }
 
     // ======= Helper Methods =======

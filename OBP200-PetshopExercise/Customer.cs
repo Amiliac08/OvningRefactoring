@@ -1,10 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+
 namespace OBP200_PetshopExercise;
 
 public class Customer : IBuyAnimal
 {
-    public static string[] customers = new string[4];
+    //public static string[] customers = new string[4];
+    public string name { get; private set; }
+    public static int budget { get; private set; }
+    public int spent = 0;
+    
+    public static List<string> animallist { get; set; }
     
     public static void StartNewCustomer()
     {
@@ -13,13 +20,15 @@ public class Customer : IBuyAnimal
         if (string.IsNullOrWhiteSpace(name)) name = "Anonymous";
 
         Console.Write("Enter budget: ");
-        var budgetStr = (Console.ReadLine() ?? "").Trim();
-        int budget = Program.ParseInt(budgetStr, 100);
+        budget = int.Parse(Console.ReadLine() ?? "0");
+        
+        //var budgetStr = (Console.ReadLine() ?? "").Trim();
+        //int budget = Program.ParseInt(budgetStr, 100);
 
-        customers[0] = name;
-        customers[1] = budget.ToString();
-        customers[2] = ""; // no pets yet
-        customers[3] = "0"; // nothing spent yet
+        //customers[0] = name;
+        //customers[1] = budget.ToString();
+        //customers[2] = ""; // no pets yet
+        //customers[3] = "0"; // nothing spent yet
 
         Program.PurchaseHistory.Clear();
 
@@ -31,8 +40,7 @@ public class Customer : IBuyAnimal
         var animal = Animals.animals[index];
         int price = animal.costs;
         
-
-        int budget = Program.ParseInt(customers[1], 0);
+        //int budget = Program.ParseInt(costumer[1], 0);
     
 
         if (budget < price)
@@ -43,16 +51,23 @@ public class Customer : IBuyAnimal
         // Purchase the animal
         
         budget -= price;
-        customers[1] = budget.ToString();
+        //customers[1] = budget.ToString();
 
-        int spent = Program.ParseInt(customers[3], 0) + price;
-        customers[3] = spent.ToString();
+        spent += price;
+        //int spent = Program.ParseInt(customers[3], 0) + price;
+        //customers[3] = spent.ToString();
         
 
         // Add to pet list
-        var pets = (customers[2] ?? "").Trim();
-        customers[2] = string.IsNullOrEmpty(pets) ? animal.type : (pets + ";" + animal.type);
+        animallist.Add(animal.type);
+        //var pets = (animallist ?? "").Trim();
+        //animallist = string.IsNullOrEmpty(pets) ? animal.type : (pets + ";" + animal.type);
 
+        if (animallist.Count == 0)
+        {
+            Console.WriteLine($"{animal.type} : (pets + ; + {animal.type}");
+        }
+        
         // Record purchase
         Program.PurchaseHistory.Add(new[] { DateTime.Now.ToString("HH:mm"), animal.type, price.ToString() });
 
